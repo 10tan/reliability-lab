@@ -172,30 +172,35 @@ where $u_{i} = F_{i}(x_{i}) \in [0, 1]$ are uniform variates, and $\boldsymbol{\
 
 #### Copula Families Implemented
 
-1. **Gaussian Copula (Implicit):**
-   Models symmetric linear rank correlation without tail dependence.
-   $$
-   C_{R}(\mathbf{u}) = \mathbf{\Phi}_{R}\left(\Phi^{-1}(u_{1}), \Phi^{-1}(u_{2}), \dots, \Phi^{-1}(u_{n})\right)
-   $$
-   where $\mathbf{\Phi}_{R}$ is the joint CDF of a multivariate normal vector with correlation matrix $\mathbf{R}$.
+#### 1. Gaussian Copula (Implicit)
+Models symmetric linear rank correlation without tail dependence.
 
-2. **Clayton Copula (Archimedean):**
-   Exhibits asymmetric strong **lower tail dependence**. Ideal for joint low-strength occurrences in structural components.
-   $$
-   C_{\theta}(u_{1}, u_{2}) = \left( u_{1}^{-\theta} + u_{2}^{-\theta} - 1 \right)^{-1/\theta}, \quad \theta > 0
-   $$
+$$
+C_{R}(\mathbf{u}) = \mathbf{\Phi}_{R}\left(\Phi^{-1}(u_{1}), \Phi^{-1}(u_{2}), \dots, \Phi^{-1}(u_{n})\right)
+$$
 
-3. **Gumbel Copula (Archimedean):**
-   Exhibits asymmetric strong **upper tail dependence**. Ideal for joint extreme environmental events.
-   $$
-   C_{\theta}(u_{1}, u_{2}) = \exp\left( -\left[ (-\ln u_{1})^{\theta} + (-\ln u_{2})^{\theta} \right]^{1/\theta} \right), \quad \theta \ge 1
-   $$
+where $\mathbf{\Phi}_{R}$ is the joint CDF of a multivariate normal vector with correlation matrix $\mathbf{R}$.
 
-4. **Frank Copula (Archimedean):**
-   Exhibits symmetric dependence across the entire domain with zero asymptotic tail dependence.
-   $$
-   C_{\theta}(u, v) = -\frac{1}{\theta} \ln\left( 1 + \frac{(e^{-\theta u} - 1)(e^{-\theta v} - 1)}{e^{-\theta} - 1} \right), \quad \theta \neq 0
-   $$
+#### 2. Clayton Copula (Archimedean)
+Exhibits asymmetric strong **lower tail dependence**. Ideal for joint low-strength occurrences in structural components.
+
+$$
+C_{\theta}(u_{1}, u_{2}) = \left( u_{1}^{-\theta} + u_{2}^{-\theta} - 1 \right)^{-1/\theta}, \quad \theta > 0
+$$
+
+#### 3. Gumbel Copula (Archimedean)
+Exhibits asymmetric strong **upper tail dependence**. Ideal for joint extreme environmental events.
+
+$$
+C_{\theta}(u_{1}, u_{2}) = \exp\left( -\left[ (-\ln u_{1})^{\theta} + (-\ln u_{2})^{\theta} \right]^{1/\theta} \right), \quad \theta \ge 1
+$$
+
+#### 4. Frank Copula (Archimedean)
+Exhibits symmetric dependence across the entire domain with zero asymptotic tail dependence.
+
+$$
+C_{\theta}(u, v) = -\frac{1}{\theta} \ln\left( 1 + \frac{(e^{-\theta u} - 1)(e^{-\theta v} - 1)}{e^{-\theta} - 1} \right), \quad \theta \neq 0
+$$
 
 ---
 
