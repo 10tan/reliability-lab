@@ -1,6 +1,6 @@
 # Reliability-Lab: Stochastic Structural Reliability & Uncertainty Quantification Platform
 
-[![CI Pipeline](https://github.com/username/reliability-lab/workflows/CI%20Pipeline/badge.svg)](https://github.com/username/reliability-lab/actions)
+[![CI Pipeline](https://github.com/10tan/reliability-lab/workflows/CI%20Pipeline/badge.svg)](https://github.com/10tan/reliability-lab/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 [![Vite 4.5](https://img.shields.io/badge/Vite-4.5-646CFF.svg)](https://vitejs.dev/)
@@ -187,7 +187,7 @@ Generates $N$ independent identically distributed (i.i.d.) samples $\mathbf{X}^{
   $$\hat{P}_f = \frac{1}{N} \sum_{i=1}^N I\left(g(\mathbf{X}^{(i)}) \leq 0\right)$$
   where $I(\cdot)$ is the indicator function ($1$ if true, $0$ if false).
 * **Variance & Coefficient of Variation:**
-  $$\operatorname{Var}(\hat{P}_f) = \frac{P_f(1 - P_f)}{N} \quad \implies \quad \operatorname{COV}(\hat{P}_f) = \sqrt{\frac{1 - P_f}{N P_f}}$$
+  $$\text{Var}(\hat{P}_f) = \frac{P_f(1 - P_f)}{N} \quad \implies \quad \text{COV}(\hat{P}_f) = \sqrt{\frac{1 - P_f}{N P_f}}$$
 
 #### 2. Subset Simulation (SuS - Au & Beck 2001)
 Expresses a rare failure event $F = \{g(\mathbf{X}) \leq 0\}$ as the intersection of $m$ nested intermediate failure events $F_1 \supset F_2 \supset \dots \supset F_m = F$:
@@ -211,17 +211,17 @@ $$g(\mathbf{X}) \approx \widehat{g}_{PCE}(\mathbf{X}) = \sum_{\boldsymbol{\alpha
 
 ### 7. Global Sensitivity Analysis (Sobol Indices)
 
-Variance-based global sensitivity analysis decomposes the total variance $V = \operatorname{Var}(g(\mathbf{X}))$ into contributions from individual variables and their interactions:
+Variance-based global sensitivity analysis decomposes the total variance $V = \text{Var}(g(\mathbf{X}))$ into contributions from individual variables and their interactions:
 
 $$V = \sum_{i=1}^n V_i + \sum_{1 \leq i < j \leq n} V_{ij} + \dots + V_{1, 2, \dots, n}$$
 
 * **First-Order Sobol Index ($S_i$):**
   Measures the main effect of variable $X_i$ on output variance without interactions.
-  $$S_i = \frac{\operatorname{Var}_{X_i}\left( \mathbb{E}_{\mathbf{X}_{\sim i}}[g(\mathbf{X}) \mid X_i] \right)}{\operatorname{Var}(g(\mathbf{X}))}$$
+  $$S_i = \frac{\text{Var}_{X_i}\left( \mathbb{E}_{\mathbf{X}_{\sim i}}[g(\mathbf{X}) \mid X_i] \right)}{\text{Var}(g(\mathbf{X}))}$$
 
 * **Total-Effect Sobol Index ($S_{Ti}$):**
   Measures the total contribution of variable $X_i$, including all higher-order interactions with other variables.
-  $$S_{Ti} = 1 - \frac{\operatorname{Var}_{\mathbf{X}_{\sim i}}\left( \mathbb{E}_{X_i}[g(\mathbf{X}) \mid \mathbf{X}_{\sim i}] \right)}{\operatorname{Var}(g(\mathbf{X}))}$$
+  $$S_{Ti} = 1 - \frac{\text{Var}_{\mathbf{X}_{\sim i}}\left( \mathbb{E}_{X_i}[g(\mathbf{X}) \mid \mathbf{X}_{\sim i}] \right)}{\text{Var}(g(\mathbf{X}))}$$
 
 ---
 
