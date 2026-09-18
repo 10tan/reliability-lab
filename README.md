@@ -52,11 +52,15 @@ A structural system is characterized by a set of basic random input variables ve
 The domain of $\mathbf{X}$ is partitioned into three distinct regions:
 
 $$
-\begin{aligned}
-\text{Safe Region: } \Omega_{s} &= \{ \mathbf{x} \in \mathbb{R}^{n} \mid g(\mathbf{x}) > 0 \} \\[4pt]
-\text{Limit State Surface: } \partial\Omega &= \{ \mathbf{x} \in \mathbb{R}^{n} \mid g(\mathbf{x}) = 0 \} \\[4pt]
-\text{Failure Region: } \Omega_{f} &= \{ \mathbf{x} \in \mathbb{R}^{n} \mid g(\mathbf{x}) \le 0 \}
-\end{aligned}
+\text{Safe Region: } \Omega_{s} = \{ \mathbf{x} \in \mathbb{R}^{n} \mid g(\mathbf{x}) > 0 \}
+$$
+
+$$
+\text{Limit State Surface: } \partial\Omega = \{ \mathbf{x} \in \mathbb{R}^{n} \mid g(\mathbf{x}) = 0 \}
+$$
+
+$$
+\text{Failure Region: } \Omega_{f} = \{ \mathbf{x} \in \mathbb{R}^{n} \mid g(\mathbf{x}) \le 0 \}
 $$
 
 The exact **Probability of Failure** $P_{f}$ is defined by the multi-dimensional integral over the failure domain:
@@ -94,10 +98,11 @@ The point on the failure boundary closest to the origin, $\mathbf{u}^{\star}$, i
 The normalized gradient vector at the design point defines the **Alpha Direction Cosines** $\boldsymbol{\alpha} = (\alpha_{1}, \alpha_{2}, \dots, \alpha_{n})^{T}$:
 
 $$
-\begin{aligned}
-\boldsymbol{\alpha} &= -\frac{\nabla g_{\mathbf{U}}(\mathbf{u}^{\star})}{\Vert \nabla g_{\mathbf{U}}(\mathbf{u}^{\star}) \Vert} \\[8pt]
-\sum_{i=1}^{n} \alpha_{i}^{2} &= 1
-\end{aligned}
+\boldsymbol{\alpha} = -\frac{\nabla g_{\mathbf{U}}(\mathbf{u}^{\star})}{\Vert \nabla g_{\mathbf{U}}(\mathbf{u}^{\star}) \Vert}
+$$
+
+$$
+\sum_{i=1}^{n} \alpha_{i}^{2} = 1
 $$
 
 Each $\alpha_{i}^{2}$ quantifies the fractional contribution of input variable $X_{i}$ to the overall variance of the reliability index $\beta$.
@@ -112,10 +117,11 @@ Reliability-Lab supports five fundamental continuous marginal probability distri
 Used for symmetric physical quantities (e.g., fabrication dimensions, dead loads).
 
 $$
-\begin{aligned}
-f(x; \mu, \sigma) &= \frac{1}{\sigma \sqrt{2\pi}} \exp\left( -\frac{(x - \mu)^{2}}{2\sigma^{2}} \right) \\[6pt]
-F(x; \mu, \sigma) &= \Phi\left( \frac{x - \mu}{\sigma} \right)
-\end{aligned}
+f(x; \mu, \sigma) = \frac{1}{\sigma \sqrt{2\pi}} \exp\left( -\frac{(x - \mu)^{2}}{2\sigma^{2}} \right)
+$$
+
+$$
+F(x; \mu, \sigma) = \Phi\left( \frac{x - \mu}{\sigma} \right)
 $$
 
 #### 2. Lognormal Distribution
@@ -179,14 +185,14 @@ where $\mathbf{\Phi}_{R}$ is the joint CDF of a multivariate normal vector with 
 Exhibits asymmetric strong **lower tail dependence**. Ideal for joint low-strength occurrences in structural components.
 
 $$
-C_{\theta}(u_{1}, u_{2}) = \left( u_{1}^{-\theta} + u_{2}^{-\theta} - 1 \right)^{-1/\theta}, \quad \theta > 0
+C_{\theta}(u_{1}, u_{2}) = \left( u_{1}^{-\theta} + u_{2}^{-\theta} - 1 \right)^{-\frac{1}{\theta}}, \quad \theta > 0
 $$
 
 #### 3. Gumbel Copula (Archimedean)
 Exhibits asymmetric strong **upper tail dependence**. Ideal for joint extreme environmental events.
 
 $$
-C_{\theta}(u_{1}, u_{2}) = \exp\left( -\left[ (-\ln u_{1})^{\theta} + (-\ln u_{2})^{\theta} \right]^{1/\theta} \right), \quad \theta \ge 1
+C_{\theta}(u_{1}, u_{2}) = \exp\left( -\left[ (-\ln u_{1})^{\theta} + (-\ln u_{2})^{\theta} \right]^{\frac{1}{\theta}} \right), \quad \theta \ge 1
 $$
 
 #### 4. Frank Copula (Archimedean)
@@ -224,7 +230,7 @@ $$
 \lambda_{L} = \lim_{q \to 0^{+}} P(U_{2} \le q \mid U_{1} \le q) = \lim_{q \to 0^{+}} \frac{C(q, q)}{q}
 $$
 
-* For Clayton Copula: $\lambda_{L} = 2^{-1/\theta}$
+* For Clayton Copula: $\lambda_{L} = 2^{-\frac{1}{\theta}}$
 * For Gaussian & Frank Copula: $\lambda_{L} = 0$
 
 Upper Tail Dependence Coefficient $\lambda_{U}$:
@@ -233,7 +239,7 @@ $$
 \lambda_{U} = \lim_{q \to 1^{-}} P(U_{2} > q \mid U_{1} > q) = \lim_{q \to 1^{-}} \frac{1 - 2q + C(q, q)}{1 - q}
 $$
 
-* For Gumbel Copula: $\lambda_{U} = 2 - 2^{1/\theta}$
+* For Gumbel Copula: $\lambda_{U} = 2 - 2^{-\frac{1}{\theta}}$
 * For Gaussian & Frank Copula: $\lambda_{U} = 0$
 
 ---
@@ -245,10 +251,11 @@ $$
 Generates $N$ independent identically distributed (i.i.d.) samples $\mathbf{X}^{(1)}, \dots, \mathbf{X}^{(N)}$ from the joint distribution.
 
 $$
-\begin{aligned}
-\hat{P}_{f} &= \frac{1}{N} \sum_{i=1}^{N} I(g(\mathbf{X}^{(i)}) \le 0) \\[8pt]
-\text{Var}(\hat{P}_{f}) &= \frac{P_{f}(1 - P_{f})}{N}, \quad \text{COV}(\hat{P}_{f}) = \sqrt{\frac{1 - P_{f}}{N P_{f}}}
-\end{aligned}
+\hat{P}_{f} = \frac{1}{N} \sum_{i=1}^{N} I(g(\mathbf{X}^{(i)}) \le 0)
+$$
+
+$$
+\text{Var}(\hat{P}_{f}) = \frac{P_{f}(1 - P_{f})}{N}, \quad \text{COV}(\hat{P}_{f}) = \sqrt{\frac{1 - P_{f}}{N P_{f}}}
 $$
 
 #### 2. Subset Simulation (SuS - Au & Beck 2001)
@@ -320,10 +327,11 @@ Real-world engineering assets consist of interconnected components arranged in s
 The system fails if **any** constituent component fails.
 
 $$
-\begin{aligned}
-F_{\text{sys}} &= \bigcup_{j=1}^{m} \{g_{j}(\mathbf{X}) \le 0\} \\[6pt]
-P_{f, \text{sys}} &= P\left( \bigcup_{j=1}^{m} \{g_{j}(\mathbf{X}) \le 0\} \right) = 1 - P\left( \bigcap_{j=1}^{m} \{g_{j}(\mathbf{X}) > 0\} \right)
-\end{aligned}
+F_{\text{sys}} = \bigcup_{j=1}^{m} \{g_{j}(\mathbf{X}) \le 0\}
+$$
+
+$$
+P_{f, \text{sys}} = P\left( \bigcup_{j=1}^{m} \{g_{j}(\mathbf{X}) \le 0\} \right) = 1 - P\left( \bigcap_{j=1}^{m} \{g_{j}(\mathbf{X}) > 0\} \right)
 $$
 
 #### 2. Parallel System (Redundant Configuration)
