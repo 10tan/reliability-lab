@@ -15,12 +15,39 @@ export const ReportViewer: React.FC<ReportViewerProps> = ({ lastRunId }) => {
   const [generating, setGenerating] = useState(false);
   const [generated, setGenerated] = useState(false);
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     setGenerating(true);
-    setTimeout(() => {
-      setGenerating(false);
+    try {
+      // Attempt to download directly from backend PDF endpoint
+      const apiUrl = `/api/reports/${runId}`;
+      const fallbackUrl = `http://localhost:8000/api/reports/${runId}`;
+
+      let res = await fetch(apiUrl);
+      if (!res.ok) {
+        res = await fetch(fallbackUrl);
+      }
+
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Reliability_Report_${runId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      } else {
+        window.open(fallbackUrl, '_blank');
+      }
       setGenerated(true);
-    }, 2000);
+    } catch (err) {
+      console.warn("Fetch failed, opening direct fallback download", err);
+      window.open(`http://localhost:8000/api/reports/${runId}`, '_blank');
+      setGenerated(true);
+    } finally {
+      setGenerating(false);
+    }
   };
 
   const reportSections = [
