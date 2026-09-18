@@ -436,17 +436,19 @@ body {
   font-family: var(--font-sans);
   position: relative;
   overflow: hidden;
+  line-height: 1.4;
 }
 
 .btn-primary {
   background: var(--gradient-blue);
-  color: var(--text-bright);
+  color: #FFFFFF !important;  /* Always pure white text on primary gradient buttons */
   border: none;
-  box-shadow: 0 2px 8px rgba(88, 166, 255, 0.25);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 4px 16px rgba(88, 166, 255, 0.4);
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
   transform: translateY(-1px);
 }
 
@@ -455,20 +457,22 @@ body {
 }
 
 .btn-primary:disabled {
-  opacity: 0.5;
+  opacity: 0.55;
   cursor: not-allowed;
   transform: none;
 }
 
 .btn-secondary {
   background: var(--bg-surface);
-  border-color: var(--border-color);
+  border: 1px solid var(--border-color);
   color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary:hover {
   background: var(--bg-card-hover);
-  border-color: var(--border-focus);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
 }
 
 .btn-icon {
