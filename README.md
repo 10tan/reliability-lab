@@ -7,7 +7,7 @@
 [![ISO 2394 Compliant](https://img.shields.io/badge/ISO-2394%20Compliant-green.svg)]()
 [![DNV-RP-C210](https://img.shields.io/badge/DNV-RP--C210-orange.svg)]()
 
-**Reliability-Lab** is an enterprise-grade, research-ready platform for stochastic structural reliability engineering, rare-event probability estimation ($P_f \in [10^{-9}, 10^{-2}]$), multivariate copula modeling, surrogate modeling, system reliability block diagram analysis, and automated numerical provenance reporting.
+**Reliability-Lab** is an enterprise-grade, research-ready platform for stochastic structural reliability engineering, rare-event probability estimation, multivariate copula modeling, surrogate modeling, system reliability block diagram analysis, and automated numerical provenance reporting.
 
 The platform combines a high-performance Python analytical backend with a responsive, dark-themed React/Vite single-page web application featuring live mathematical rendering via KaTeX and real-time SVG charting.
 
@@ -51,15 +51,23 @@ A structural system is characterized by a set of basic random input variables ve
 
 The domain of $\mathbf{X}$ is partitioned into three distinct regions:
 
-$$\text{Safe Region: } \Omega_s = \{\mathbf{x} \in \mathbb{R}^n \mid g(\mathbf{x}) > 0\}$$
+$$
+\text{Safe Region: } \Omega_s = \{ \mathbf{x} \in \mathbb{R}^n \mid g(\mathbf{x}) > 0 \}
+$$
 
-$$\text{Limit State Surface: } \partial\Omega = \{\mathbf{x} \in \mathbb{R}^n \mid g(\mathbf{x}) = 0\}$$
+$$
+\text{Limit State Surface: } \partial\Omega = \{ \mathbf{x} \in \mathbb{R}^n \mid g(\mathbf{x}) = 0 \}
+$$
 
-$$\text{Failure Region: } \Omega_f = \{\mathbf{x} \in \mathbb{R}^n \mid g(\mathbf{x}) \leq 0\}$$
+$$
+\text{Failure Region: } \Omega_f = \{ \mathbf{x} \in \mathbb{R}^n \mid g(\mathbf{x}) \le 0 \}
+$$
 
 The exact **Probability of Failure** $P_f$ is defined by the multi-dimensional integral over the failure domain:
 
-$$P_f = P\left(g(\mathbf{X}) \leq 0\right) = \int_{g(\mathbf{x}) \leq 0} f_{\mathbf{X}}(\mathbf{x}) \, d\mathbf{x}$$
+$$
+P_f = P(g(\mathbf{X}) \le 0) = \int_{g(\mathbf{x}) \le 0} f_{\mathbf{X}}(\mathbf{x}) \, d\mathbf{x}
+$$
 
 where $f_{\mathbf{X}}(\mathbf{x})$ is the joint probability density function (PDF) of the random variables $\mathbf{X}$.
 
@@ -67,25 +75,35 @@ where $f_{\mathbf{X}}(\mathbf{x})$ is the joint probability density function (PD
 
 ### 2. Reliability Index & FORM Design Point
 
-#### Cornell & Hasofer-Lind Reliability Index ($\beta$)
+#### Cornell & Hasofer-Lind Reliability Index Beta
+
 The **Reliability Index** $\beta$ provides a standardized measure of safety. Under the First-Order Reliability Method (FORM), the random vector $\mathbf{X}$ is mapped to standard normal space $\mathbf{U} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$ via the Rosenblatt or Nataf transformation $\mathbf{U} = T(\mathbf{X})$.
 
 The reliability index $\beta$ represents the shortest distance from the origin in standard normal space to the limit state boundary $g_{\mathbf{U}}(\mathbf{U}) = 0$:
 
-$$\beta = \min_{\mathbf{u} \in \{g_{\mathbf{U}}(\mathbf{u}) = 0\}} \|\mathbf{u}\|_2$$
+$$
+\beta = \min_{\mathbf{u} \in \{g_{\mathbf{U}}(\mathbf{u}) = 0\}} \|\mathbf{u}\|_2
+$$
 
 The failure probability is related to $\beta$ via the standard normal cumulative distribution function $\Phi(\cdot)$:
 
-$$P_f \approx \Phi(-\beta) \quad \iff \quad \beta = -\Phi^{-1}(P_f)$$
+$$
+P_f \approx \Phi(-\beta) \quad \iff \quad \beta = -\Phi^{-1}(P_f)
+$$
 
-#### Hasofer-Lind Design Point ($\mathbf{u}^*$) & Alpha Sensitivity ($\alpha_i$)
+#### Hasofer-Lind Design Point and Alpha Sensitivity
+
 The point on the failure boundary closest to the origin, $\mathbf{u}^*$, is called the **Design Point** (or Most Probable Point, MPP).
 
 The normalized gradient vector at the design point defines the **Alpha Direction Cosines** $\boldsymbol{\alpha} = (\alpha_1, \alpha_2, \dots, \alpha_n)^T$:
 
-$$\boldsymbol{\alpha} = -\frac{\nabla g_{\mathbf{U}}(\mathbf{u}^*)}{\|\nabla g_{\mathbf{U}}(\mathbf{u}^*)\|}$$
+$$
+\boldsymbol{\alpha} = -\frac{\nabla g_{\mathbf{U}}(\mathbf{u}^*)}{\|\nabla g_{\mathbf{U}}(\mathbf{u}^*)\|}
+$$
 
-$$\sum_{i=1}^n \alpha_i^2 = 1$$
+$$
+\sum_{i=1}^n \alpha_i^2 = 1
+$$
 
 Each $\alpha_i^2$ quantifies the fractional contribution of input variable $X_i$ to the overall variance of the reliability index $\beta$.
 
@@ -97,41 +115,58 @@ Reliability-Lab supports five fundamental continuous marginal probability distri
 
 #### 1. Normal (Gaussian) Distribution
 Used for symmetric physical quantities (e.g., fabrication dimensions, dead loads).
-* **Probability Density Function (PDF):**
-  $$f(x; \mu, \sigma) = \frac{1}{\sigma \sqrt{2\pi}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \right)$$
-* **Cumulative Distribution Function (CDF):**
-  $$F(x; \mu, \sigma) = \Phi\left( \frac{x - \mu}{\sigma} \right)$$
+
+$$
+f(x; \mu, \sigma) = \frac{1}{\sigma \sqrt{2\pi}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \right)
+$$
+
+$$
+F(x; \mu, \sigma) = \Phi\left( \frac{x - \mu}{\sigma} \right)
+$$
 
 #### 2. Lognormal Distribution
 Used for non-negative physical parameters (e.g., yield stress, elastic modulus, fracture toughness).
-* **Probability Density Function (PDF):**
-  $$f(x; \mu, \sigma) = \frac{1}{x \zeta \sqrt{2\pi}} \exp\left( -\frac{(\ln x - \lambda)^2}{2\zeta^2} \right), \quad x > 0$$
-  where $\zeta^2 = \ln\left(1 + \frac{\sigma^2}{\mu^2}\right)$ and $\lambda = \ln(\mu) - \frac{1}{2}\zeta^2$.
+
+$$
+f(x; \mu, \sigma) = \frac{1}{x \zeta \sqrt{2\pi}} \exp\left( -\frac{(\ln x - \lambda)^2}{2\zeta^2} \right), \quad x > 0
+$$
+
+where $\zeta^2 = \ln\left(1 + \frac{\sigma^2}{\mu^2}\right)$ and $\lambda = \ln(\mu) - \frac{1}{2}\zeta^2$.
 
 #### 3. Weibull Distribution (Type-III Extreme Value)
 Used for material fatigue life, wind speed extremes, and component time-to-failure.
-* **Probability Density Function (PDF):**
-  $$f(x; k, \lambda) = \frac{k}{\lambda} \left(\frac{x}{\lambda}\right)^{k-1} \exp\left( -\left(\frac{x}{\lambda}\right)^k \right), \quad x \geq 0$$
-  where $k > 0$ is the shape parameter and $\lambda > 0$ is the scale parameter.
+
+$$
+f(x; k, \lambda) = \frac{k}{\lambda} \left(\frac{x}{\lambda}\right)^{k-1} \exp\left( -\left(\frac{x}{\lambda}\right)^k \right), \quad x \ge 0
+$$
+
+where $k > 0$ is the shape parameter and $\lambda > 0$ is the scale parameter.
 
 #### 4. Gumbel Distribution (Type-I Extreme Value)
 Used for maximum annual environmental loads (wave heights, flood levels, extreme wind gusts).
-* **Probability Density Function (PDF):**
-  $$f(x; \mu, \beta) = \frac{1}{\beta} \exp\left( -z - e^{-z} \right), \quad z = \frac{x - \mu}{\beta}$$
+
+$$
+f(x; \mu, \beta) = \frac{1}{\beta} \exp\left( -z - e^{-z} \right), \quad z = \frac{x - \mu}{\beta}
+$$
 
 #### 5. Uniform Distribution
 Used when only upper and lower physical bounds are known without additional distributional data.
-* **Probability Density Function (PDF):**
-  $$f(x; a, b) = \frac{1}{b - a}, \quad a \leq x \leq b$$
+
+$$
+f(x; a, b) = \frac{1}{b - a}, \quad a \le x \le b
+$$
 
 ---
 
 ### 4. Multivariate Dependence & Copula Theory
 
 #### Sklar's Theorem (1959)
+
 Sklar's theorem states that any multivariate joint cumulative distribution function $F(x_1, \dots, x_n)$ can be expressed in terms of its univariate marginal distributions $F_i(x_i)$ and a copula function $C$:
 
-$$F(x_1, x_2, \dots, x_n) = C\left(F_1(x_1), F_2(x_2), \dots, F_n(x_n); \boldsymbol{\theta}\right)$$
+$$
+F(x_1, x_2, \dots, x_n) = C\left(F_1(x_1), F_2(x_2), \dots, F_n(x_n); \boldsymbol{\theta}\right)
+$$
 
 where $u_i = F_i(x_i) \in [0, 1]$ are uniform variates, and $\boldsymbol{\theta}$ parameterizes the dependence structure.
 
@@ -139,71 +174,117 @@ where $u_i = F_i(x_i) \in [0, 1]$ are uniform variates, and $\boldsymbol{\theta}
 
 1. **Gaussian Copula (Implicit):**
    Models symmetric linear rank correlation without tail dependence.
-   $$C_R(\mathbf{u}) = \mathbf{\Phi}_R\left(\Phi^{-1}(u_1), \Phi^{-1}(u_2), \dots, \Phi^{-1}(u_n)\right)$$
+   $$
+   C_R(\mathbf{u}) = \mathbf{\Phi}_R\left(\Phi^{-1}(u_1), \Phi^{-1}(u_2), \dots, \Phi^{-1}(u_n)\right)
+   $$
    where $\mathbf{\Phi}_R$ is the joint CDF of a multivariate normal vector with correlation matrix $\mathbf{R}$.
 
 2. **Clayton Copula (Archimedean):**
    Exhibits asymmetric strong **lower tail dependence**. Ideal for joint low-strength occurrences in structural components.
-   $$C_\theta(u_1, u_2) = \left( u_1^{-\theta} + u_2^{-\theta} - 1 \right)^{-1/\theta}, \quad \theta > 0$$
+   $$
+   C_\theta(u_1, u_2) = \left( u_1^{-\theta} + u_2^{-\theta} - 1 \right)^{-1/\theta}, \quad \theta > 0
+   $$
 
 3. **Gumbel Copula (Archimedean):**
-   Exhibits asymmetric strong **upper tail dependence**. Ideal for joint extreme environmental events (e.g., simultaneous peak wave height and storm surge).
-   $$C_\theta(u_1, u_2) = \exp\left( -\left[ (-\ln u_1)^\theta + (-\ln u_2)^\theta \right]^{1/\theta} \right), \quad \theta \geq 1$$
+   Exhibits asymmetric strong **upper tail dependence**. Ideal for joint extreme environmental events.
+   $$
+   C_\theta(u_1, u_2) = \exp\left( -\left[ (-\ln u_1)^\theta + (-\ln u_2)^\theta \right]^{1/\theta} \right), \quad \theta \ge 1
+   $$
 
 4. **Frank Copula (Archimedean):**
    Exhibits symmetric dependence across the entire domain with zero asymptotic tail dependence.
-   $$C_\theta(u, v) = -\frac{1}{\theta} \ln\left( 1 + \frac{(e^{-\theta u} - 1)(e^{-\theta v} - 1)}{e^{-\theta} - 1} \right), \quad \theta \neq 0$$
+   $$
+   C_\theta(u, v) = -\frac{1}{\theta} \ln\left( 1 + \frac{(e^{-\theta u} - 1)(e^{-\theta v} - 1)}{e^{-\theta} - 1} \right), \quad \theta \neq 0
+   $$
 
 ---
 
 ### 5. Dependence Statistics & Tail Dependence
 
-#### Kendall's Rank Correlation ($\tau$)
+#### Kendall's Rank Correlation Tau
+
 Measures concordant versus discordant pairs in bivariate data:
-$$\tau = 4 \int_0^1 \int_0^1 C(u, v) \, dC(u, v) - 1$$
 
-#### Spearman's Rank Correlation ($\rho_s$)
+$$
+\tau = 4 \int_0^1 \int_0^1 C(u, v) \, dC(u, v) - 1
+$$
+
+#### Spearman's Rank Correlation Rho
+
 Measures monotonic relationships between rank-transformed variables:
-$$\rho_s = 12 \int_0^1 \int_0^1 u v \, dC(u, v) - 3$$
 
-#### Tail Dependence Coefficients ($\lambda_L, \lambda_U$)
-* **Lower Tail Dependence Coefficient ($\lambda_L$):**
-  $$\lambda_L = \lim_{q \to 0^{+}} P\left(U_2 \leq q \mid U_1 \leq q\right) = \lim_{q \to 0^{+}} \frac{C(q, q)}{q}$$
-  * For Clayton Copula: $\lambda_L = 2^{-1/\theta}$
-  * For Gaussian & Frank Copula: $\lambda_L = 0$
+$$
+\rho_s = 12 \int_0^1 \int_0^1 u v \, dC(u, v) - 3
+$$
 
-* **Upper Tail Dependence Coefficient ($\lambda_U$):**
-  $$\lambda_U = \lim_{q \to 1^{-}} P\left(U_2 > q \mid U_1 > q\right) = \lim_{q \to 1^{-}} \frac{1 - 2q + C(q, q)}{1 - q}$$
-  * For Gumbel Copula: $\lambda_U = 2 - 2^{1/\theta}$
-  * For Gaussian & Frank Copula: $\lambda_U = 0$
+#### Tail Dependence Coefficients
+
+Lower Tail Dependence Coefficient $\lambda_L$:
+
+$$
+\lambda_L = \lim_{q \to 0^+} P(U_2 \le q \mid U_1 \le q) = \lim_{q \to 0^+} \frac{C(q, q)}{q}
+$$
+
+* For Clayton Copula: $\lambda_L = 2^{-1/\theta}$
+* For Gaussian & Frank Copula: $\lambda_L = 0$
+
+Upper Tail Dependence Coefficient $\lambda_U$:
+
+$$
+\lambda_U = \lim_{q \to 1^-} P(U_2 > q \mid U_1 > q) = \lim_{q \to 1^-} \frac{1 - 2q + C(q, q)}{1 - q}
+$$
+
+* For Gumbel Copula: $\lambda_U = 2 - 2^{1/\theta}$
+* For Gaussian & Frank Copula: $\lambda_U = 0$
 
 ---
 
 ### 6. Rare-Event Simulation Algorithms
 
 #### 1. Direct Monte Carlo Simulation (MCS)
+
 Generates $N$ independent identically distributed (i.i.d.) samples $\mathbf{X}^{(1)}, \dots, \mathbf{X}^{(N)}$ from the joint distribution.
-* **Estimator:**
-  $$\hat{P}_f = \frac{1}{N} \sum_{i=1}^N I\left(g(\mathbf{X}^{(i)}) \leq 0\right)$$
-  where $I(\cdot)$ is the indicator function ($1$ if true, $0$ if false).
-* **Variance & Coefficient of Variation:**
-  $$\text{Var}(\hat{P}_f) = \frac{P_f(1 - P_f)}{N} \quad \implies \quad \text{COV}(\hat{P}_f) = \sqrt{\frac{1 - P_f}{N P_f}}$$
+
+$$
+\hat{P}_f = \frac{1}{N} \sum_{i=1}^N I(g(\mathbf{X}^{(i)}) \le 0)
+$$
+
+$$
+\text{Var}(\hat{P}_f) = \frac{P_f(1 - P_f)}{N} \quad \implies \quad \text{COV}(\hat{P}_f) = \sqrt{\frac{1 - P_f}{N P_f}}
+$$
 
 #### 2. Subset Simulation (SuS - Au & Beck 2001)
-Expresses a rare failure event $F = \{g(\mathbf{X}) \leq 0\}$ as the intersection of $m$ nested intermediate failure events $F_1 \supset F_2 \supset \dots \supset F_m = F$:
-$$F_k = \{g(\mathbf{X}) \leq b_k\}, \quad b_1 > b_2 > \dots > b_m = 0$$
+
+Expresses a rare failure event $F = \{g(\mathbf{X}) \le 0\}$ as the intersection of $m$ nested intermediate failure events $F_1 \supset F_2 \supset \dots \supset F_m = F$:
+
+$$
+F_k = \{g(\mathbf{X}) \le b_k\}, \quad b_1 > b_2 > \dots > b_m = 0
+$$
 
 The small failure probability $P_f$ is computed as a product of larger conditional probabilities:
-$$P_f = P(F_1) \prod_{k=2}^m P(F_k \mid F_{k-1}) \approx p_0^{m}$$
-where $p_0$ (typically $0.1$) is chosen so that each conditional probability is easily estimated using Markov Chain Monte Carlo (MCMC) with Modified Metropolis-Hastings (MMH) sampling.
+
+$$
+P_f = P(F_1) \prod_{k=2}^m P(F_k \mid F_{k-1}) \approx p_0^m
+$$
+
+where $p_0$ (typically $0.1$) is chosen so that each conditional probability is estimated using Markov Chain Monte Carlo (MCMC) with Modified Metropolis-Hastings (MMH) sampling.
 
 #### 3. Adaptive Importance Sampling (AIS - Cross-Entropy)
+
 Replaces the target density $f_{\mathbf{X}}(\mathbf{x})$ with an optimized proposal sampling distribution $h(\mathbf{x})$ centered closer to the failure domain:
-$$\hat{P}_f = \frac{1}{N} \sum_{i=1}^N I\left(g(\mathbf{X}^{(i)}) \leq 0\right) \frac{f_{\mathbf{X}}(\mathbf{X}^{(i)})}{h(\mathbf{X}^{(i)})}, \quad \mathbf{X}^{(i)} \sim h(\mathbf{x})$$
+
+$$
+\hat{P}_f = \frac{1}{N} \sum_{i=1}^N I(g(\mathbf{X}^{(i)}) \le 0) \frac{f_{\mathbf{X}}(\mathbf{X}^{(i)})}{h(\mathbf{X}^{(i)})}, \quad \mathbf{X}^{(i)} \sim h(\mathbf{x})
+$$
 
 #### 4. Polynomial Chaos Expansion (PCE Surrogate)
+
 Constructs a spectral representation of the limit state function $g(\mathbf{X})$ using orthogonal polynomials $\Psi_{\boldsymbol{\alpha}}(\mathbf{X})$:
-$$g(\mathbf{X}) \approx \widehat{g}_{PCE}(\mathbf{X}) = \sum_{\boldsymbol{\alpha} \in \mathcal{A}} c_{\boldsymbol{\alpha}} \Psi_{\boldsymbol{\alpha}}(\mathbf{X})$$
+
+$$
+g(\mathbf{X}) \approx \widehat{g}_{\text{PCE}}(\mathbf{X}) = \sum_{\boldsymbol{\alpha} \in \mathcal{A}} c_{\boldsymbol{\alpha}} \Psi_{\boldsymbol{\alpha}}(\mathbf{X})
+$$
+
 * **Hermite Polynomials** for Gaussian random variables.
 * **Legendre Polynomials** for Uniform random variables.
 
@@ -213,15 +294,23 @@ $$g(\mathbf{X}) \approx \widehat{g}_{PCE}(\mathbf{X}) = \sum_{\boldsymbol{\alpha
 
 Variance-based global sensitivity analysis decomposes the total variance $V = \text{Var}(g(\mathbf{X}))$ into contributions from individual variables and their interactions:
 
-$$V = \sum_{i=1}^n V_i + \sum_{1 \leq i < j \leq n} V_{ij} + \dots + V_{1, 2, \dots, n}$$
+$$
+V = \sum_{i=1}^n V_i + \sum_{1 \le i < j \le n} V_{ij} + \dots + V_{1, 2, \dots, n}
+$$
 
-* **First-Order Sobol Index ($S_i$):**
-  Measures the main effect of variable $X_i$ on output variance without interactions.
-  $$S_i = \frac{\text{Var}_{X_i}\left( \mathbb{E}_{\mathbf{X}_{-i}}[g(\mathbf{X}) \mid X_i] \right)}{\text{Var}(g(\mathbf{X}))}$$
+#### First-Order Sobol Index ($S_i$)
+Measures the main effect of variable $X_i$ on output variance without interactions:
 
-* **Total-Effect Sobol Index ($S_{Ti}$):**
-  Measures the total contribution of variable $X_i$, including all higher-order interactions with other variables.
-  $$S_{Ti} = 1 - \frac{\text{Var}_{\mathbf{X}_{-i}}\left( \mathbb{E}_{X_i}[g(\mathbf{X}) \mid \mathbf{X}_{-i}] \right)}{\text{Var}(g(\mathbf{X}))}$$
+$$
+S_i = \frac{\text{Var}_{X_i}\left( \mathbb{E}_{\mathbf{X}_{-i}}[g(\mathbf{X}) \mid X_i] \right)}{\text{Var}(g(\mathbf{X}))}
+$$
+
+#### Total-Effect Sobol Index ($S_{Ti}$)
+Measures the total contribution of variable $X_i$, including all higher-order interactions with other variables:
+
+$$
+S_{Ti} = 1 - \frac{\text{Var}_{\mathbf{X}_{-i}}\left( \mathbb{E}_{X_i}[g(\mathbf{X}) \mid \mathbf{X}_{-i}] \right)}{\text{Var}(g(\mathbf{X}))}
+$$
 
 ---
 
@@ -231,16 +320,28 @@ Real-world engineering assets consist of interconnected components arranged in s
 
 #### 1. Series System (Weakest-Link Configuration)
 The system fails if **any** constituent component fails.
-$$F_{\text{sys}} = \bigcup_{j=1}^m \{g_j(\mathbf{X}) \leq 0\}$$
-$$P_{f, \text{sys}} = P\left( \bigcup_{j=1}^m \{g_j(\mathbf{X}) \leq 0\} \right) = 1 - P\left( \bigcap_{j=1}^m \{g_j(\mathbf{X}) > 0\} \right)$$
+
+$$
+F_{\text{sys}} = \bigcup_{j=1}^m \{g_j(\mathbf{X}) \le 0\}
+$$
+
+$$
+P_{f, \text{sys}} = P\left( \bigcup_{j=1}^m \{g_j(\mathbf{X}) \le 0\} \right) = 1 - P\left( \bigcap_{j=1}^m \{g_j(\mathbf{X}) > 0\} \right)
+$$
 
 #### 2. Parallel System (Redundant Configuration)
 The system fails only if **all** constituent components fail simultaneously.
-$$F_{\text{sys}} = \bigcap_{j=1}^m \{g_j(\mathbf{X}) \leq 0\}$$
+
+$$
+F_{\text{sys}} = \bigcap_{j=1}^m \{g_j(\mathbf{X}) \le 0\}
+$$
 
 #### 3. General Fault-Tree System (Minimal Cut Sets)
 A **Minimal Cut Set** $C_k$ is a minimum combination of component failures that causes system failure. The overall system failure probability is computed using Ditlevsen's narrow bounds or Genz multivariate normal numerical integration:
-$$P_{f, \text{sys}} = P\left( \bigcup_{k=1}^{K} \bigcap_{j \in C_k} \{g_j(\mathbf{X}) \leq 0\} \right)$$
+
+$$
+P_{f, \text{sys}} = P\left( \bigcup_{k=1}^{K} \bigcap_{j \in C_k} \{g_j(\mathbf{X}) \le 0\} \right)
+$$
 
 ---
 
@@ -248,7 +349,7 @@ $$P_{f, \text{sys}} = P\left( \bigcup_{k=1}^{K} \bigcap_{j \in C_k} \{g_j(\mathb
 
 ```
 reliability-lab/
-├── backend/                  # FastApi Python analytical engine
+├── backend/                  # FastAPI Python analytical engine
 │   ├── src/reliability_lab/
 │   │   ├── api/              # REST & WebSocket API handlers
 │   │   ├── core/             # Copulas, distributions, limit state evaluators
