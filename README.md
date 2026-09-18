@@ -82,7 +82,7 @@ The **Reliability Index** $\beta$ provides a standardized measure of safety. Und
 The reliability index $\beta$ represents the shortest distance from the origin in standard normal space to the limit state boundary $g_{\mathbf{U}}(\mathbf{U}) = 0$:
 
 $$
-\beta = \min_{\mathbf{u} \in \{g_{\mathbf{U}}(\mathbf{u}) = 0\}} \|\mathbf{u}\|_{2}
+\beta = \min_{\mathbf{u} \in \{g_{\mathbf{U}}(\mathbf{u}) = 0\}} \Vert \mathbf{u} \Vert_{2}
 $$
 
 The failure probability is related to $\beta$ via the standard normal cumulative distribution function $\Phi(\cdot)$:
@@ -93,12 +93,12 @@ $$
 
 #### Hasofer-Lind Design Point and Alpha Sensitivity
 
-The point on the failure boundary closest to the origin, $\mathbf{u}^{*}$, is called the **Design Point** (or Most Probable Point, MPP).
+The point on the failure boundary closest to the origin, $\mathbf{u}^{\star}$, is called the **Design Point** (or Most Probable Point, MPP).
 
 The normalized gradient vector at the design point defines the **Alpha Direction Cosines** $\boldsymbol{\alpha} = (\alpha_{1}, \alpha_{2}, \dots, \alpha_{n})^{T}$:
 
 $$
-\boldsymbol{\alpha} = -\frac{\nabla g_{\mathbf{U}}(\mathbf{u}^{*})}{\|\nabla g_{\mathbf{U}}(\mathbf{u}^{*})\|}
+\boldsymbol{\alpha} = -\frac{\nabla g_{\mathbf{U}}(\mathbf{u}^{\star})}{\Vert \nabla g_{\mathbf{U}}(\mathbf{u}^{\star}) \Vert}
 $$
 
 $$
