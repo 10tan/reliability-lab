@@ -730,7 +730,7 @@ export const SimulationWorkbench: React.FC<SimulationWorkbenchProps> = ({ modelS
                 <div className="ui-card" style={{ margin: 0 }}>
                   <h4 style={{ fontSize: '14px', fontWeight: 600, marginBottom: '14px' }}>Global Variance Sobol Indices</h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    {result.variables.map((v, i) => (
+                    {(result.variables || []).map((v, i) => (
                       <div key={v} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
                           <span className="font-mono" style={{ color: 'var(--text-primary)' }}>{v}</span>

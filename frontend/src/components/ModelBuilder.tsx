@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import katex from 'katex';
 import { Plus, Trash2, CheckCircle2, Cpu, BookOpen, BarChart3, Settings, Eye, Sliders, Layers, Activity } from 'lucide-react';
-import { ModelSpec } from '../types';
+import { ModelSpec, Marginal } from '../types';
 
 const renderMath = (tex: string, displayMode = false) => ({
   __html: katex.renderToString(tex, { throwOnError: false, displayMode })
@@ -19,7 +19,7 @@ const copulaFormulas: Record<string, string> = {
   gaussian: 'C_R(\\mathbf{u}) = \\Phi_R\\!\\left(\\Phi^{-1}(u_1), \\dots, \\Phi^{-1}(u_n)\\right)',
   clayton: 'C_\\theta(\\mathbf{u}) = \\left(\\sum_{i=1}^n u_i^{-\\theta} - n + 1\\right)^{-1/\\theta}',
   gumbel: 'C_\\theta(\\mathbf{u}) = \\exp\\!\\left(-\\left[\\sum_{i=1}^n (-\\ln u_i)^\\theta\\right]^{1/\\theta}\\right)',
-  frank: 'C_\\theta(u, v) = -\\frac{1}{\\theta}\\ln\\left(1 + \\frac{(e^{-\\theta u}-1)(e^{-\\theta v}-1)}{e^{-\\theta}-1}\\right)'
+  frank: 'C_\\theta(u,v) = -\\frac{1}{\\theta}\\ln\\!\\left(1 + \\frac{(e^{-\\theta u}-1)(e^{-\\theta v}-1)}{e^{-\\theta}-1}\\right)'
 };
 
 const paramLabels: Record<string, [string, string]> = {
@@ -30,50 +30,51 @@ const paramLabels: Record<string, [string, string]> = {
   uniform: ['Lower (a)', 'Upper (b)']
 };
 
-// Box-Muller transform
+function erf(x: number): number {
+  const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+  const a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+  const sign = x < 0 ? -1 : 1;
+  const absX = Math.abs(x);
+  const t = 1.0 / (1.0 + p * absX);
+  const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-absX * absX);
+  return sign * y;
+}
+
+// Box-Muller standard normal RNG
 function randn(): number {
   const u1 = Math.max(1e-10, Math.random());
   const u2 = Math.random();
   return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
 }
 
-// Generate 2D samples under Copula
-function generateCopulaSamples(type: string, theta: number, n: number = 250) {
+// Generate 2D copula sample points for visualization
+function generateCopulaSamples(type: string, theta: number, n = 300) {
   const samples: { u1: number; u2: number }[] = [];
   for (let i = 0; i < n; i++) {
     let u1 = Math.random();
     let u2 = Math.random();
-
     if (type === 'gaussian') {
       const z1 = randn();
       const z2 = randn();
-      const rho = Math.min(0.95, Math.max(-0.95, theta));
+      const rho = Math.max(-0.95, Math.min(0.95, theta));
       const x1 = z1;
       const x2 = rho * z1 + Math.sqrt(1 - rho * rho) * z2;
-      // Convert to uniform via normcdf
-      const normCDF = (x: number) => {
-        const t = 1 / (1 + 0.2316419 * Math.abs(x));
-        const d = 0.3989422804014327;
-        const p = d * Math.exp(-x * x / 2) * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
-        return x > 0 ? 1 - p : p;
-      };
+      const normCDF = (x: number) => 0.5 * (1 + erf(x / Math.SQRT2));
       u1 = normCDF(x1);
       u2 = normCDF(x2);
     } else if (type === 'clayton') {
-      // Clayton copula sampling via conditional CDF
       const v1 = Math.random();
       const v2 = Math.random();
       u1 = v1;
       const th = Math.max(0.1, theta);
       u2 = Math.pow(Math.pow(v1, -th) * (Math.pow(v2, -th / (1 + th)) - 1) + 1, -1 / th);
     } else if (type === 'gumbel') {
-      // Gumbel copula approximation
       const z1 = randn();
       const z2 = randn();
       const rho = 0.3 + 0.5 * Math.min(1, theta / 5);
       const x1 = z1;
       const x2 = rho * z1 + Math.sqrt(1 - rho * rho) * z2;
-      const normCDF = (x: number) => 0.5 * (1 + Math.erf?.(x / Math.SQRT2) || (x > 0 ? 0.9 : 0.1));
+      const normCDF = (x: number) => 0.5 * (1 + erf(x / Math.SQRT2));
       u1 = Math.max(0.01, Math.min(0.99, normCDF(x1)));
       u2 = Math.max(0.01, Math.min(0.99, normCDF(x2)));
     }
@@ -106,7 +107,7 @@ export const ModelBuilder: React.FC<ModelBuilderProps> = ({ onSaveModel }) => {
   const [copulaType, setCopulaType] = useState('gaussian');
   const [copulaParam, setCopulaParam] = useState<number>(0.5);
   const [limitStateExpr, setLimitStateExpr] = useState('R - S');
-  const [marginals, setMarginals] = useState([
+  const [marginals, setMarginals] = useState<Marginal[]>([
     { name: 'R', dist_type: 'lognormal', params: { mean: 120.0, std: 12.0 } },
     { name: 'S', dist_type: 'gumbel', params: { loc: 50.0, scale: 10.0 } }
   ]);
