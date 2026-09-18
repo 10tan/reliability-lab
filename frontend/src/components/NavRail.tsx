@@ -1,5 +1,5 @@
-import React from 'react';
-import { Cpu, Activity, GitMerge, FileText, Info, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Cpu, Activity, GitMerge, FileText, Info, ShieldCheck, Sun, Moon } from 'lucide-react';
 
 interface NavRailProps {
   activeTab: string;
@@ -7,6 +7,19 @@ interface NavRailProps {
 }
 
 export const NavRail: React.FC<NavRailProps> = ({ activeTab, setActiveTab }) => {
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    return (localStorage.getItem('reliability_lab_theme') as 'light' | 'dark') || 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('reliability_lab_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
+
   const mainItems = [
     { id: 'model', label: 'Model Builder', icon: Cpu },
     { id: 'simulation', label: 'Simulation Workbench', icon: Activity },
@@ -61,13 +74,23 @@ export const NavRail: React.FC<NavRailProps> = ({ activeTab, setActiveTab }) => 
         })}
       </nav>
 
-      <div style={{ marginTop: 'auto', padding: '12px 8px' }}>
+      <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid var(--border-color)' }}>
+        <button
+          className="nav-item"
+          onClick={toggleTheme}
+          title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
+          style={{ width: '100%', marginBottom: '12px' }}
+        >
+          {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+          <span>{theme === 'light' ? 'Dark Theme' : 'Light Theme'}</span>
+        </button>
+
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '10px', color: 'var(--text-muted)' }}>
           <ShieldCheck size={12} />
           <span>ISO 2394 / DNV-RP-C210</span>
         </div>
         <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px', paddingLeft: '18px' }}>
-          v0.1.0 — Research Edition
+          v0.1.0 — Light Edition
         </div>
       </div>
     </aside>

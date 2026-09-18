@@ -71,10 +71,10 @@ export const SystemView: React.FC = () => {
     setComputed(true);
   };
 
-  // SVG color scheme for dark mode
-  const seriesColors = { fill: '#1a3a5c', stroke: '#58A6FF', text: '#E6EDF3', subtext: '#79C0FF' };
-  const parallelColors = { fill: '#2d1a3e', stroke: '#BC8CFF', text: '#E6EDF3', subtext: '#BC8CFF' };
-  const lineColor = '#484F58';
+  // SVG color scheme dynamically powered by theme CSS variables
+  const seriesColors = { fill: 'var(--chart-series-fill)', stroke: 'var(--chart-series-stroke)', text: 'var(--text-primary)', subtext: 'var(--accent-blue)' };
+  const parallelColors = { fill: 'var(--chart-parallel-fill)', stroke: 'var(--chart-parallel-stroke)', text: 'var(--text-primary)', subtext: 'var(--accent-purple)' };
+  const lineColor = 'var(--chart-grid-line)';
 
   return (
     <div>

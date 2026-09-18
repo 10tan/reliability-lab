@@ -6,7 +6,76 @@
 @import 'katex/dist/katex.min.css';
 
 :root {
-  /* Core Backgrounds */
+  /* Light Theme Defaults (Premium Light Engineering System) */
+  --bg-app: #F8FAFC;          /* Slate 50 */
+  --bg-surface: #FFFFFF;      /* Pure White Surface */
+  --bg-card: #FFFFFF;         /* Pure White Cards */
+  --bg-card-hover: #F1F5F9;   /* Slate 100 Hover */
+  --bg-elevated: #FFFFFF;
+  --bg-input: #F8FAFC;        /* Slate 50 Input */
+
+  /* Borders */
+  --border-color: #E2E8F0;     /* Slate 200 */
+  --border-focus: #2563EB;     /* Blue 600 */
+  --border-radius: 10px;
+  --border-radius-sm: 6px;
+  --border-radius-lg: 14px;
+
+  /* Text */
+  --text-primary: #0F172A;    /* Slate 900 */
+  --text-secondary: #475569;  /* Slate 600 */
+  --text-muted: #64748B;      /* Slate 500 */
+  --text-bright: #020617;     /* Slate 950 */
+
+  /* Accent Colors */
+  --accent-blue: #2563EB;      /* Blue 600 */
+  --accent-blue-hover: #1D4ED8;
+  --accent-blue-dim: rgba(37, 99, 235, 0.08);
+  --accent-cyan: #0284C7;      /* Sky 600 */
+  --accent-green: #16A34A;     /* Green 600 */
+  --accent-green-dim: rgba(22, 163, 74, 0.08);
+  --accent-purple: #7C3AED;    /* Violet 600 */
+  --accent-purple-dim: rgba(124, 58, 237, 0.08);
+  --accent-orange: #EA580C;    /* Orange 600 */
+  --accent-orange-dim: rgba(234, 88, 12, 0.08);
+  --accent-red: #DC2626;       /* Red 600 */
+  --accent-red-dim: rgba(220, 38, 38, 0.08);
+
+  /* Gradients */
+  --gradient-blue: linear-gradient(135deg, #2563EB 0%, #7C3AED 100%);
+  --gradient-green: linear-gradient(135deg, #16A34A 0%, #0284C7 100%);
+  --gradient-hero: linear-gradient(135deg, #FFFFFF 0%, #F1F5F9 50%, #E2E8F0 100%);
+  --gradient-nav: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  --gradient-accent-line: linear-gradient(90deg, #2563EB, #7C3AED, #16A34A);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.1);
+  --shadow-glow-blue: 0 0 20px rgba(37, 99, 235, 0.12);
+  --shadow-glow-purple: 0 0 20px rgba(124, 58, 237, 0.12);
+
+  /* Chart & Diagram Colors */
+  --chart-grid-line: #E2E8F0;
+  --chart-text: #64748B;
+  --chart-bg: #F8FAFC;
+  --chart-series-fill: #E0F2FE;
+  --chart-series-stroke: #0284C7;
+  --chart-parallel-fill: #F3E8FF;
+  --chart-parallel-stroke: #9333EA;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Fira Code', monospace;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms ease;
+}
+
+[data-theme="dark"] {
+  /* Dark Engineering Theme */
   --bg-app: #0D1117;
   --bg-surface: #161B22;
   --bg-card: #1C2333;
@@ -14,20 +83,14 @@
   --bg-elevated: #242F3F;
   --bg-input: #0D1117;
 
-  /* Borders */
   --border-color: rgba(255, 255, 255, 0.06);
   --border-focus: rgba(88, 166, 255, 0.4);
-  --border-radius: 10px;
-  --border-radius-sm: 6px;
-  --border-radius-lg: 14px;
 
-  /* Text */
   --text-primary: #E6EDF3;
   --text-secondary: #8B949E;
   --text-muted: #484F58;
   --text-bright: #FFFFFF;
 
-  /* Accent Colors */
   --accent-blue: #58A6FF;
   --accent-blue-hover: #79C0FF;
   --accent-blue-dim: rgba(88, 166, 255, 0.15);
@@ -41,27 +104,25 @@
   --accent-red: #F85149;
   --accent-red-dim: rgba(248, 81, 73, 0.15);
 
-  /* Gradients */
   --gradient-blue: linear-gradient(135deg, #58A6FF 0%, #BC8CFF 100%);
   --gradient-green: linear-gradient(135deg, #3FB950 0%, #58A6FF 100%);
   --gradient-hero: linear-gradient(135deg, #0D1117 0%, #161B22 40%, #1a2744 100%);
+  --gradient-nav: linear-gradient(180deg, #161B22 0%, #0D1117 100%);
   --gradient-accent-line: linear-gradient(90deg, #58A6FF, #BC8CFF, #3FB950);
 
-  /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.5);
   --shadow-glow-blue: 0 0 20px rgba(88, 166, 255, 0.15);
   --shadow-glow-purple: 0 0 20px rgba(188, 140, 255, 0.15);
 
-  /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'Fira Code', monospace;
-
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
-  --transition-slow: 400ms ease;
+  --chart-grid-line: rgba(255, 255, 255, 0.06);
+  --chart-text: #8B949E;
+  --chart-bg: #161B22;
+  --chart-series-fill: #1a3a5c;
+  --chart-series-stroke: #58A6FF;
+  --chart-parallel-fill: #2d1a3e;
+  --chart-parallel-stroke: #BC8CFF;
 }
 
 /* ====== Reset ====== */
@@ -109,7 +170,7 @@ body {
 /* ====== Navigation Rail ====== */
 .nav-rail {
   width: 240px;
-  background: linear-gradient(180deg, #161B22 0%, #0D1117 100%);
+  background: var(--gradient-nav);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
@@ -174,7 +235,7 @@ body {
 }
 
 .nav-item:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--bg-card-hover);
   color: var(--text-primary);
 }
 
@@ -262,7 +323,7 @@ body {
 }
 
 .ui-card:hover {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-focus);
   box-shadow: var(--shadow-md);
 }
 
@@ -291,7 +352,7 @@ body {
 }
 
 .stat-card:hover {
-  border-color: rgba(88, 166, 255, 0.3);
+  border-color: var(--accent-blue);
   box-shadow: var(--shadow-glow-blue);
   transform: translateY(-2px);
 }
@@ -406,8 +467,8 @@ body {
 }
 
 .btn-secondary:hover {
-  background: var(--bg-card);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: var(--bg-card-hover);
+  border-color: var(--border-focus);
 }
 
 .btn-icon {
@@ -445,7 +506,7 @@ body {
 }
 
 .data-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-card-hover);
 }
 
 .data-table tr:last-child td {

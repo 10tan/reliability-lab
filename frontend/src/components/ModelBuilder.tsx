@@ -344,8 +344,8 @@ export const ModelBuilder: React.FC<ModelBuilderProps> = ({ onSaveModel }) => {
                 <line x1="30" y1="20" x2="30" y2="210" stroke="var(--border-color)" strokeWidth="2" />
 
                 {/* Gridlines */}
-                <line x1="180" y1="20" x2="180" y2="210" stroke="rgba(255,255,255,0.06)" strokeDasharray="4 4" />
-                <line x1="30" y1="115" x2="330" y2="115" stroke="rgba(255,255,255,0.06)" strokeDasharray="4 4" />
+                <line x1="180" y1="20" x2="180" y2="210" stroke="var(--chart-grid-line)" strokeDasharray="4 4" />
+                <line x1="30" y1="115" x2="330" y2="115" stroke="var(--chart-grid-line)" strokeDasharray="4 4" />
 
                 {/* Scatter Points */}
                 {copulaScatterPoints.map((pt, i) => {

@@ -544,9 +544,9 @@ export const SimulationWorkbench: React.FC<SimulationWorkbenchProps> = ({ modelS
                   <div style={{ background: 'var(--bg-app)', padding: '16px', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
                     <svg viewBox="0 0 500 220" style={{ width: '100%', height: '280px' }}>
                       {/* Grid Lines */}
-                      <line x1="50" y1="30" x2="480" y2="30" stroke="rgba(255,255,255,0.06)" strokeDasharray="4 4" />
-                      <line x1="50" y1="105" x2="480" y2="105" stroke="rgba(255,255,255,0.06)" strokeDasharray="4 4" />
-                      <line x1="50" y1="180" x2="480" y2="180" stroke="rgba(255,255,255,0.06)" strokeDasharray="4 4" />
+                      <line x1="50" y1="30" x2="480" y2="30" stroke="var(--chart-grid-line)" strokeDasharray="4 4" />
+                      <line x1="50" y1="105" x2="480" y2="105" stroke="var(--chart-grid-line)" strokeDasharray="4 4" />
+                      <line x1="50" y1="180" x2="480" y2="180" stroke="var(--chart-grid-line)" strokeDasharray="4 4" />
 
                       {/* Convergence Polyline */}
                       {(() => {
@@ -565,7 +565,7 @@ export const SimulationWorkbench: React.FC<SimulationWorkbenchProps> = ({ modelS
                           return `${x},${Math.max(20, Math.min(190, y))}`;
                         });
 
-                        const lowerPoints = hist.slice().reverse().map((h, idx) => {
+                        const lowerPoints = [...hist].reverse().map((h, idx) => {
                           const origIdx = hist.length - 1 - idx;
                           const x = 50 + (origIdx / (hist.length - 1)) * 430;
                           const y = 180 - (h.lower / maxPf) * 150;
@@ -577,7 +577,7 @@ export const SimulationWorkbench: React.FC<SimulationWorkbenchProps> = ({ modelS
                         return (
                           <g>
                             {/* Shaded CI Band */}
-                            <polygon points={bandPoints} fill="rgba(88, 166, 255, 0.18)" stroke="none" />
+                            <polygon points={bandPoints} fill="var(--accent-blue-dim)" stroke="none" />
                             {/* Main Pf Line */}
                             <polyline fill="none" stroke="var(--accent-blue)" strokeWidth="3" points={points} />
                             {/* Target Pf reference line */}
@@ -777,7 +777,7 @@ export const SimulationWorkbench: React.FC<SimulationWorkbenchProps> = ({ modelS
                     </tr>
                   </thead>
                   <tbody>
-                    <tr style={{ background: method === 'MCS' ? 'rgba(88,166,255,0.08)' : 'transparent' }}>
+                    <tr style={{ background: method === 'MCS' ? 'var(--accent-blue-dim)' : 'transparent' }}>
                       <td><strong>Monte Carlo (MCS)</strong></td>
                       <td className="font-mono">{result.pf.toExponential(3)}</td>
                       <td className="font-mono">{result.beta.toFixed(3)}</td>
@@ -785,7 +785,7 @@ export const SimulationWorkbench: React.FC<SimulationWorkbenchProps> = ({ modelS
                       <td className="font-mono">{samples.toLocaleString()}</td>
                       <td><span className="badge badge-orange">Baseline</span></td>
                     </tr>
-                    <tr style={{ background: method === 'Subset' ? 'rgba(88,166,255,0.08)' : 'transparent' }}>
+                    <tr style={{ background: method === 'Subset' ? 'var(--accent-blue-dim)' : 'transparent' }}>
                       <td><strong>Subset Simulation (SuS)</strong></td>
                       <td className="font-mono">{(result.pf * 1.02).toExponential(3)}</td>
                       <td className="font-mono">{(-normInvCDF(result.pf * 1.02)).toFixed(3)}</td>
@@ -793,7 +793,7 @@ export const SimulationWorkbench: React.FC<SimulationWorkbenchProps> = ({ modelS
                       <td className="font-mono">{(samples * 2.5).toLocaleString()}</td>
                       <td><span className="badge badge-green">High (10x Speedup for Rare Events)</span></td>
                     </tr>
-                    <tr style={{ background: method === 'IS' ? 'rgba(88,166,255,0.08)' : 'transparent' }}>
+                    <tr style={{ background: method === 'IS' ? 'var(--accent-blue-dim)' : 'transparent' }}>
                       <td><strong>Adaptive Importance Sampling</strong></td>
                       <td className="font-mono">{(result.pf * 0.99).toExponential(3)}</td>
                       <td className="font-mono">{(-normInvCDF(result.pf * 0.99)).toFixed(3)}</td>
@@ -801,7 +801,7 @@ export const SimulationWorkbench: React.FC<SimulationWorkbenchProps> = ({ modelS
                       <td className="font-mono">{(samples * 0.2).toLocaleString()}</td>
                       <td><span className="badge badge-purple">Optimal for Single Mode</span></td>
                     </tr>
-                    <tr style={{ background: method === 'PCE' ? 'rgba(88,166,255,0.08)' : 'transparent' }}>
+                    <tr style={{ background: method === 'PCE' ? 'var(--accent-blue-dim)' : 'transparent' }}>
                       <td><strong>Polynomial Chaos Expansion</strong></td>
                       <td className="font-mono">{(result.pf * 1.01).toExponential(3)}</td>
                       <td className="font-mono">{(-normInvCDF(result.pf * 1.01)).toFixed(3)}</td>
