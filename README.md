@@ -168,12 +168,12 @@ $$\rho_s = 12 \int_0^1 \int_0^1 u v \, dC(u, v) - 3$$
 
 #### Tail Dependence Coefficients ($\lambda_L, \lambda_U$)
 * **Lower Tail Dependence Coefficient ($\lambda_L$):**
-  $$\lambda_L = \lim_{q \to 0^+} P\left(U_2 \leq q \mid U_1 \leq q\right) = \lim_{q \to 0^+} \frac{C(q, q)}{q}$$
+  $$\lambda_L = \lim_{q \to 0^{+}} P\left(U_2 \leq q \mid U_1 \leq q\right) = \lim_{q \to 0^{+}} \frac{C(q, q)}{q}$$
   * For Clayton Copula: $\lambda_L = 2^{-1/\theta}$
   * For Gaussian & Frank Copula: $\lambda_L = 0$
 
 * **Upper Tail Dependence Coefficient ($\lambda_U$):**
-  $$\lambda_U = \lim_{q \to 1^-} P\left(U_2 > q \mid U_1 > q\right) = \lim_{q \to 1^-} \frac{1 - 2q + C(q, q)}{1 - q}$$
+  $$\lambda_U = \lim_{q \to 1^{-}} P\left(U_2 > q \mid U_1 > q\right) = \lim_{q \to 1^{-}} \frac{1 - 2q + C(q, q)}{1 - q}$$
   * For Gumbel Copula: $\lambda_U = 2 - 2^{1/\theta}$
   * For Gaussian & Frank Copula: $\lambda_U = 0$
 
@@ -194,7 +194,7 @@ Expresses a rare failure event $F = \{g(\mathbf{X}) \leq 0\}$ as the intersectio
 $$F_k = \{g(\mathbf{X}) \leq b_k\}, \quad b_1 > b_2 > \dots > b_m = 0$$
 
 The small failure probability $P_f$ is computed as a product of larger conditional probabilities:
-$$P_f = P(F_1) \prod_{k=2}^m P(F_k \mid F_{k-1}) \approx p_0^m$$
+$$P_f = P(F_1) \prod_{k=2}^m P(F_k \mid F_{k-1}) \approx p_0^{m}$$
 where $p_0$ (typically $0.1$) is chosen so that each conditional probability is easily estimated using Markov Chain Monte Carlo (MCMC) with Modified Metropolis-Hastings (MMH) sampling.
 
 #### 3. Adaptive Importance Sampling (AIS - Cross-Entropy)
@@ -217,11 +217,11 @@ $$V = \sum_{i=1}^n V_i + \sum_{1 \leq i < j \leq n} V_{ij} + \dots + V_{1, 2, \d
 
 * **First-Order Sobol Index ($S_i$):**
   Measures the main effect of variable $X_i$ on output variance without interactions.
-  $$S_i = \frac{\text{Var}_{X_i}\left( \mathbb{E}_{\mathbf{X}_{\sim i}}[g(\mathbf{X}) \mid X_i] \right)}{\text{Var}(g(\mathbf{X}))}$$
+  $$S_i = \frac{\text{Var}_{X_i}\left( \mathbb{E}_{\mathbf{X}_{-i}}[g(\mathbf{X}) \mid X_i] \right)}{\text{Var}(g(\mathbf{X}))}$$
 
 * **Total-Effect Sobol Index ($S_{Ti}$):**
   Measures the total contribution of variable $X_i$, including all higher-order interactions with other variables.
-  $$S_{Ti} = 1 - \frac{\text{Var}_{\mathbf{X}_{\sim i}}\left( \mathbb{E}_{X_i}[g(\mathbf{X}) \mid \mathbf{X}_{\sim i}] \right)}{\text{Var}(g(\mathbf{X}))}$$
+  $$S_{Ti} = 1 - \frac{\text{Var}_{\mathbf{X}_{-i}}\left( \mathbb{E}_{X_i}[g(\mathbf{X}) \mid \mathbf{X}_{-i}] \right)}{\text{Var}(g(\mathbf{X}))}$$
 
 ---
 
